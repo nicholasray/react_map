@@ -1,0 +1,14 @@
+.map {
+  position: absolute;
+  right: 0;
+  width: 40%;
+  height: 100%;
+}
+
+.marker {
+  position: absolute;
+  height: 35px;
+  width: 35px;
+  background-image: url('../public/images/map-marker.png');
+  background-size: contain;
+}
