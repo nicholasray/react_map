@@ -7,8 +7,10 @@
 
 .marker {
   position: absolute;
-  height: 35px;
-  width: 35px;
+  left: -18px;
+  top: -18px;
+  height: 36px;
+  width: 36px;
   background-image: url('../public/images/map-marker.png');
   background-size: contain;
 }
