@@ -5,23 +5,6 @@ import GoogleMap from 'google-map-react';
 import Marker from './marker';
 
 class SimpleMap extends Component {
- static defaultProps = {
-    bounds: {
-      nw: {
-        lat: 41,
-        lng: -111
-      },
-      se: {
-        lat: 37.1,
-        lng: -110
-      }
-    },
-    size: {
-      width: 576, // Map width in pixels
-      height: 457 // Map height in pixels
-    },
-  };
-
   onChange(data) {
     console.log("bounds changed", data);
     const sw = {

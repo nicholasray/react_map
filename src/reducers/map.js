@@ -13,7 +13,7 @@ const bounds = {
 
 const size = {
   width: 576, // Map width in pixels
-  height: 457 // Map height in pixels
+  height: 402 // Map height in pixels
 };
 
 const {center, zoom} = fitBounds({nw: bounds.nw, se: bounds.se}, size);
