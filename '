@@ -1,0 +1,41 @@
+import axios from 'axios';
+
+export const ROOT_URL = 'https://sandstone-api.herokuapp.com';
+export const SEARCH = 'SEARCH';
+export const CHANGE_BOUNDS = 'CHANGE_BOUNDS';
+export const CHANGE_RANGE = 'CHANGE_RANGE';
+
+export function search() {
+  return (dispatch, getState) => {
+    const state = getState();
+    const sw = state.map.bounds.sw;
+    const ne = state.map.bounds.ne;
+    console.log(sw);
+    console.log(ne);
+    const url = `${ROOT_URL}/rocks?limit=10&latitude=gt:${sw.lat},lt:${ne.lat}&longitude=gt:${sw.lng},lt:${ne.lng}&sort=id`
+    console.log(url);
+
+    const request = axios.get(url).then((data) => {
+      dispatch({
+        type: GET_MARKERS,
+        payload: data
+      });
+    });
+  }
+}
+
+export function changeBounds(sw, ne) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: CHANGE_BOUNDS,
+      payload: {sw, ne}
+    });
+    console.log("getting state", getState());
+    dispatch(search());
+  };
+}
+
+export function changeRange(newValues) {
+  return {
+  }
+}

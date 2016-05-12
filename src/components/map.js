@@ -1,28 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getMarkers } from '../actions/index';
+import { changeBounds } from '../actions/index';
 import GoogleMap from 'google-map-react';
 import Marker from './marker';
 
 class SimpleMap extends Component {
   onChange(data) {
     console.log("bounds changed", data);
-    const sw = {
-      lat: data.bounds.se.lat,
-      lng: data.bounds.nw.lng
-    }
-
-    const ne = {
-      lat: data.bounds.nw.lat,
-      lng: data.bounds.se.lng
-    }
-
-    this.props.getMarkers(sw, ne);
+    this.props.changeBounds(data.bounds.se, data.bounds.nw);
   }
 
   renderMarkers() {
-    return this.props.markers.map((marker) => {
-      return <Marker key={marker.id} lat={marker.latitude} lng={marker.longitude} />
+    return this.props.rockList.map((id) => {
+      const rock = this.props.rockHash[id];
+      return <Marker key={id} lat={rock.latitude} lng={rock.longitude} />
     });
   }
 
@@ -42,7 +33,8 @@ class SimpleMap extends Component {
 }
 
 export function mapStateToProps(state) {
-    return { markers: state.markers, map: state.map };
+    console.log(state);
+    return { rockHash: state.data.entities.rocks, rockList: state.data.result, map: state.map};
 }
 
-export default connect(mapStateToProps, { getMarkers })(SimpleMap);
+export default connect(mapStateToProps, { changeBounds })(SimpleMap);

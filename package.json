@@ -29,11 +29,14 @@
     "babel-preset-stage-1": "^6.1.18",
     "google-map-react": "^0.12.0",
     "lodash": "^3.10.1",
+    "normalizr": "^2.0.2",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.1",
     "redux": "^3.0.4",
-    "redux-promise": "^0.5.3"
+    "redux-promise": "^0.5.3",
+    "redux-thunk": "^2.1.0",
+    "rheostat": "^1.0.0"
   }
 }
