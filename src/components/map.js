@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { changeBounds } from '../actions/index';
+import { changeBounds, markerSelect } from '../actions/index';
 import GoogleMap from 'google-map-react';
 import Marker from './marker';
 
 class SimpleMap extends Component {
   onChange(data) {
     console.log("bounds changed", data);
-    this.props.changeBounds(data.bounds.se, data.bounds.nw);
+    this.props.changeBounds(data.bounds, data.center);
+  }
+
+  onChildClick(id) {
+    console.log("marker select before", this.props.map);
+    this.props.markerSelect(id);
   }
 
   renderMarkers() {
@@ -21,9 +26,10 @@ class SimpleMap extends Component {
     return (
       <div className="map">
         <GoogleMap
-          defaultCenter={this.props.map.center}
-          defaultZoom={this.props.map.zoom}
+          center={this.props.map.center}
+          zoom={this.props.map.zoom}
           onChange={this.onChange.bind(this)}
+          onChildClick={this.onChildClick.bind(this)}
         >
           { this.renderMarkers() }
         </GoogleMap>
@@ -33,8 +39,8 @@ class SimpleMap extends Component {
 }
 
 export function mapStateToProps(state) {
-    console.log(state);
+    console.log("state is",state);
     return { rockHash: state.data.entities.rocks, rockList: state.data.result, map: state.map};
 }
 
-export default connect(mapStateToProps, { changeBounds })(SimpleMap);
+export default connect(mapStateToProps, { changeBounds, markerSelect })(SimpleMap);

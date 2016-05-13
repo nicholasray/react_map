@@ -4,6 +4,7 @@ export const ROOT_URL = 'https://sandstone-api.herokuapp.com';
 export const SEARCH = 'SEARCH';
 export const CHANGE_BOUNDS = 'CHANGE_BOUNDS';
 export const CHANGE_RANGE = 'CHANGE_RANGE';
+export const MARKER_SELECT = 'MARKER_SELECT';
 
 export function search() {
   return (dispatch, getState) => {
@@ -37,25 +38,29 @@ export function search() {
   }
 }
 
-export function changeBounds(se, nw) {
+export function changeBounds(bounds, center) {
   return (dispatch) => {
     dispatch({
       type: CHANGE_BOUNDS,
-      payload: {se, nw}
+      payload: {bounds, center}
     });
     dispatch(search());
   };
 }
 
+export function markerSelect(id) {
+  return {
+    type: MARKER_SELECT,
+    payload: {id}
+  };
+}
+
 export function changeRange(min, max) {
-  console.log("min:",min);
-  console.log("max:",max);
   return (dispatch, getState) => {
     dispatch({
       type: CHANGE_RANGE,
       payload: { min, max }
     });
-    console.log("range state", getState());
     dispatch(search());
   };
 }

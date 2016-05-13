@@ -11,7 +11,6 @@ export default class App extends Component {
 
   onValuesUpdated(data) {
     this.props.changeRangeActive(data.values[0], data.values[1]);
-    console.log(data);
   }
 
   render() {
