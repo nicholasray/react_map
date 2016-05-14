@@ -7,7 +7,7 @@ import Marker from './marker';
 class SimpleMap extends Component {
   onChange(data) {
     console.log("bounds changed", data);
-    this.props.changeBounds(data.bounds, data.center);
+    this.props.changeBounds(data.bounds, data.center, data.zoom);
   }
 
   onChildClick(id) {

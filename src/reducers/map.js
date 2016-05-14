@@ -9,7 +9,7 @@ const INITIAL_STATE = {bounds: {}, center: center, zoom: zoom};
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
   case CHANGE_BOUNDS:
-    return Object.assign({}, state, {bounds: getNewBounds(state.bounds, action), center: getNewCenter(state.center, action)});
+    return Object.assign({}, state, {bounds: getNewBounds(state.bounds, action), center: getNewCenter(state.center, action), zoom: action.payload.zoom});
   case MARKER_SELECT:
     const data = {
       height: 259,

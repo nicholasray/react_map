@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
-import Carousel from 'nuka-carousel';
 
 
 class Marker extends Component {
@@ -17,6 +16,9 @@ class Marker extends Component {
         <div onMouseEnter={this.onMouseEnter.bind(this)} onMouseLeave={this.onMouseLeave.bind(this)} className={cx("infoBox",
         this.props.showInfobox ? "active" : ""
         )}>
+          <div className="infobox-content">
+            <img src={"https://placeholdit.imgix.net/~text?txtsize=33&txt=image&w=200&h=150&bg=eee"} />
+          </div>
         </div>
         <div className="marker">
         </div>

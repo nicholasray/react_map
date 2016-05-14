@@ -38,11 +38,11 @@ export function search() {
   }
 }
 
-export function changeBounds(bounds, center) {
+export function changeBounds(bounds, center, zoom) {
   return (dispatch) => {
     dispatch({
       type: CHANGE_BOUNDS,
-      payload: {bounds, center}
+      payload: {bounds, center, zoom}
     });
     dispatch(search());
   };
