@@ -1,26 +1,10 @@
-import { fitBounds } from 'google-map-react/utils';
 import { CHANGE_BOUNDS, MARKER_SELECT } from '../actions/index';
 var merc = require('mercator-projection');
 
-const bounds = {
-  nw: {
-    lat: 41,
-    lng: -111
-  },
-  se: {
-    lat: 37.1,
-    lng: -110
-  }
-};
+const center = {lat: 39.0639, lng: -108.5506};
+const zoom = 6;
 
-const size = {
-  width: 576, // Map width in pixels
-  height: 402 // Map height in pixels
-};
-
-const {center, zoom} = fitBounds({nw: bounds.nw, se: bounds.se}, size);
-
-const INITIAL_STATE = {bounds: {nw: bounds.nw, se: bounds.se}, center: center, zoom: zoom};
+const INITIAL_STATE = {bounds: {}, center: center, zoom: zoom};
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
