@@ -5,12 +5,10 @@ import Carousel from 'nuka-carousel';
 
 class Marker extends Component {
   onMouseEnter(e) {
-    console.log("on mouse enter");
     this.props.$onMouseAllow(false);
   }
 
   onMouseLeave(e) {
-    console.log("on mouse leave");
     this.props.$onMouseAllow(true);
   }
   render() {

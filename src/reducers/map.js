@@ -27,43 +27,60 @@ export default function(state = INITIAL_STATE, action) {
   case CHANGE_BOUNDS:
     return Object.assign({}, state, {bounds: getNewBounds(state.bounds, action), center: getNewCenter(state.center, action)});
   case MARKER_SELECT:
-    const boxHeight = 259;
-    const scale = 1 << action.payload.map.zoom;
-    const pxScale = (boxHeight / scale);
-    console.log("rock is", action.payload.rock);
-
-    console.log("pxScale", pxScale);
-    var xy = merc.fromLatLngToPoint({lat: action.payload.rock.latitude, lng: action.payload.rock.longitude})
-    console.log("marker x, y is", xy);
-    console.log(xy.y - pxScale);
-    var latlng = merc.fromPointToLatLng({x: xy.x, y: (xy.y - pxScale)})
-    console.log("lat, lng should be", latlng);
-
-    const boundsPt = merc.fromLatLngToPoint({lat: action.payload.map.bounds.nw.lat, lng: action.payload.map.bounds.nw.lng});
-    console.log("bounds pt", boundsPt);
-
-    const diff = boundsPt.y - (xy.y - pxScale);
-    console.log(diff);
-
-    const centerPt = merc.fromLatLngToPoint(action.payload.map.center);
-    console.log("centerPt", centerPt);
-
-    const newCenterY = centerPt.y - diff;
-
-    const ll = merc.fromPointToLatLng({x: 46.364444444444445, y: newCenterY})
-    console.log("ll is", ll);
-
-    console.log("orig lat,lng", action.payload.map.bounds.se);
-    const newNw = {lat: latlng.lat, lng: action.payload.map.bounds.nw.lng};
-
-    const obj = {nw: newNw, se: action.payload.map.bounds.se};
-    const fb = fitBounds({nw: obj.nw, se: obj.se}, {width: 78, height: 88});
-    console.log("fb", fb);
-
-    return Object.assign({}, state, {center: {lat: ll.lat, lng: action.payload.map.center.lng}, action});
+    const data = {
+      height: 259,
+      width: 280,
+      zoom: action.payload.map.zoom,
+      center: action.payload.map.center,
+      markerLatLng: {lat: action.payload.rock.latitude, lng: action.payload.rock.longitude},
+      bounds: action.payload.map.bounds
+    };
+    const newCenter = panToBubble(data);
+    return Object.assign({}, state, {center: newCenter});
   default:
     return state;
   }
+}
+
+function panToBubble(data) {
+    const bubbleHeight = data.height;
+    const bubbleWidth = data.width;
+    const zoom = data.zoom;
+    const center = data.center;
+    const markerLatLng = data.markerLatLng;
+    const bounds = data.bounds
+
+    const boundsNW = merc.fromLatLngToPoint({lat: bounds.nw.lat, lng: bounds.nw.lng});
+    const boundsSE = merc.fromLatLngToPoint({lat: bounds.se.lat, lng: bounds.se.lng});
+    const scale = 1 << zoom;
+    const pxScaleHeight = (bubbleHeight / scale);
+    const pxScaleWidth = (bubbleWidth / scale);
+    const centerPt = merc.fromLatLngToPoint(center);
+
+    const xy = merc.fromLatLngToPoint({lat: markerLatLng.lat, lng: markerLatLng.lng})
+    const bubbleNW = {x: xy.x - (pxScaleWidth / 2), y: xy.y - (pxScaleHeight)}
+    const bubbleSE = {x: xy.x + (pxScaleWidth / 2), y: xy.y + (pxScaleHeight)}
+
+    // will edge of bubble be cut off of map
+    // test right side
+    var xDiff = 0;
+    var yDiff = 0;
+    if (boundsSE.x < bubbleSE.x) {
+      // right edge is cut off
+      xDiff = bubbleSE.x - boundsSE.x;
+    } else if (boundsNW.x > bubbleNW.x) {
+      // left edge is cut off
+      xDiff = (boundsNW.x - bubbleNW.x) * -1;
+    }
+
+    if (boundsNW.y > bubbleNW.y) {
+      yDiff = (boundsNW.y - bubbleNW.y) * -1;
+    }
+
+    const newCenterPt = {x: centerPt.x + xDiff, y: centerPt.y + yDiff};
+    const newCenterLatLng = merc.fromPointToLatLng(newCenterPt);
+
+    return newCenterLatLng;
 }
 
 function getNewCenter(state = INITIAL_STATE.center, action) {
