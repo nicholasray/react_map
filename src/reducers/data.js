@@ -1,4 +1,4 @@
-import { SEARCH } from '../actions/index';
+import { SEARCH, MARKER_SELECT } from '../actions/index';
 import { normalize, Schema, arrayOf } from 'normalizr';
 import  {rockSchema, climbSchema} from '../schema';
 
@@ -28,13 +28,24 @@ const INITIAL_STATE = {
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
   case SEARCH:
-    return Object.assign({}, state, models(state, action))
+    return Object.assign({}, state, getNewEntities(state, action))
+  case MARKER_SELECT:
+    return Object.assign({}, state, {markers: getNewMarkers(state, action)});
   default:
     return state;
   }
 }
 
-function models(state = INITIAL_STATE, action) {
+function getNewMarkers(state = state.markers, action) {
+  switch(action.type) {
+  case MARKER_SELECT:
+    return Object.assign({}, state, {selected: action.payload.id});
+  default:
+    return state;
+  }
+}
+
+function getNewEntities(state = INITIAL_STATE, action) {
   switch (action.type) {
   case SEARCH:
     const rData = normalize(action.payload.rocks, arrayOf(rockSchema));

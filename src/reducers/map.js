@@ -1,5 +1,6 @@
 import { fitBounds } from 'google-map-react/utils';
 import { CHANGE_BOUNDS, MARKER_SELECT } from '../actions/index';
+var merc = require('mercator-projection');
 
 const bounds = {
   nw: {
@@ -26,7 +27,40 @@ export default function(state = INITIAL_STATE, action) {
   case CHANGE_BOUNDS:
     return Object.assign({}, state, {bounds: getNewBounds(state.bounds, action), center: getNewCenter(state.center, action)});
   case MARKER_SELECT:
-    return Object.assign({}, state, {center: getNewCenter(state.center, action)});
+    const boxHeight = 259;
+    const scale = 1 << action.payload.map.zoom;
+    const pxScale = (boxHeight / scale);
+    console.log("rock is", action.payload.rock);
+
+    console.log("pxScale", pxScale);
+    var xy = merc.fromLatLngToPoint({lat: action.payload.rock.latitude, lng: action.payload.rock.longitude})
+    console.log("marker x, y is", xy);
+    console.log(xy.y - pxScale);
+    var latlng = merc.fromPointToLatLng({x: xy.x, y: (xy.y - pxScale)})
+    console.log("lat, lng should be", latlng);
+
+    const boundsPt = merc.fromLatLngToPoint({lat: action.payload.map.bounds.nw.lat, lng: action.payload.map.bounds.nw.lng});
+    console.log("bounds pt", boundsPt);
+
+    const diff = boundsPt.y - (xy.y - pxScale);
+    console.log(diff);
+
+    const centerPt = merc.fromLatLngToPoint(action.payload.map.center);
+    console.log("centerPt", centerPt);
+
+    const newCenterY = centerPt.y - diff;
+
+    const ll = merc.fromPointToLatLng({x: 46.364444444444445, y: newCenterY})
+    console.log("ll is", ll);
+
+    console.log("orig lat,lng", action.payload.map.bounds.se);
+    const newNw = {lat: latlng.lat, lng: action.payload.map.bounds.nw.lng};
+
+    const obj = {nw: newNw, se: action.payload.map.bounds.se};
+    const fb = fitBounds({nw: obj.nw, se: obj.se}, {width: 78, height: 88});
+    console.log("fb", fb);
+
+    return Object.assign({}, state, {center: {lat: ll.lat, lng: action.payload.map.center.lng}, action});
   default:
     return state;
   }

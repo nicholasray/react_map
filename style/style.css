@@ -9,13 +9,60 @@
 .marker {
   position: absolute;
   left: -18px;
-  top: -18px;
+  top: -36px;
   height: 36px;
   width: 36px;
   background-image: url('../public/images/map-marker.png');
   background-size: contain;
   cursor: pointer;
 }
+
+
+.infoBox.active {
+  display: block;
+  opacity: .8;
+  visibility: visible;
+  z-index: 500;
+}
+
+.infoBox {
+  position: absolute;
+  height: 244px;
+  width: 280px;
+  padding: 10px;
+  background: white;
+  left: -140px;
+  top: -259px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  border-radius: 2px;
+  z-index: -1;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.1s linear;
+}
+
+.infoBox:before {
+  border-color: #000000 transparent transparent;
+  border-color: rgba(0,0,0,0.3) transparent transparent;
+  border-width: 16px;
+  border-style: solid;
+  content: '';
+  display: inline-block;
+  position: absolute;
+  bottom: -32px;
+  left: 124px;
+}
+
+.infoBox:after {
+  border-color: #fff transparent transparent;
+  border-width: 15px;
+  border-style: solid;
+  content: '';
+  display: inline-block;
+  position: absolute;
+  bottom: -30px;
+  left: 125px;
+}
+
 
 .navbar {
   background: #fefefe;

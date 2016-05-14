@@ -49,10 +49,14 @@ export function changeBounds(bounds, center) {
 }
 
 export function markerSelect(id) {
-  return {
-    type: MARKER_SELECT,
-    payload: {id}
-  };
+  return (dispatch, getState) => {
+    const rockId = getState().data.entities.climbs[id].rockId;
+    const rock = getState().data.entities.rocks[rockId];
+    dispatch({
+      type: MARKER_SELECT,
+      payload: {id, rock: rock, map: getState().map}
+    });
+  }
 }
 
 export function changeRange(min, max) {

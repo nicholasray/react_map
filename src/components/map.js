@@ -11,14 +11,14 @@ class SimpleMap extends Component {
   }
 
   onChildClick(id) {
-    console.log("marker select before", this.props.map);
+    console.log("marker selected", this.props.map);
     this.props.markerSelect(id);
   }
 
   renderMarkers() {
-    return this.props.rockList.map((id) => {
+    return this.props.climbList.map((id) => {
       const rock = this.props.rockHash[id];
-      return <Marker key={id} lat={rock.latitude} lng={rock.longitude} />
+      return <Marker key={id} lat={rock.latitude} lng={rock.longitude} showInfobox={id == this.props.markers.selected} />
     });
   }
 
@@ -40,7 +40,7 @@ class SimpleMap extends Component {
 
 export function mapStateToProps(state) {
     console.log("state is",state);
-    return { rockHash: state.data.entities.rocks, rockList: state.data.result, map: state.map};
+    return { climbHash: state.data.entities.climbs, climbList: state.data.result, rockHash: state.data.entities.rocks, map: state.map, markers: state.data.markers };
 }
 
 export default connect(mapStateToProps, { changeBounds, markerSelect })(SimpleMap);
