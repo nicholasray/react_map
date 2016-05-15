@@ -29,6 +29,12 @@ class SimpleMap extends Component {
     });
   }
 
+  createMapOptions() {
+    return {
+      scrollwheel: false,
+    };
+  }
+
   render() {
     return (
       <div className="map">
@@ -37,6 +43,7 @@ class SimpleMap extends Component {
           zoom={this.props.map.zoom}
           onChange={this.onChange.bind(this)}
           onClick={this.onClick.bind(this)}
+          options={this.createMapOptions}
         >
           { this.renderMarkers() }
         </GoogleMap>
