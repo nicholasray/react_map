@@ -14,8 +14,7 @@ class Marker extends Component {
   }
 
   onClick(e) {
-    e.markerClicked = true;
-    console.log("bubble clicked");
+    e.nativeEvent.markerClicked = true;
   }
 
   render() {
