@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
+import Slider from './slider';
 
 
 class Marker extends Component {
@@ -17,7 +18,7 @@ class Marker extends Component {
         this.props.showInfobox ? "active" : ""
         )}>
           <div className="infobox-content">
-            <img src={"https://placeholdit.imgix.net/~text?txtsize=33&txt=image&w=200&h=150&bg=eee"} />
+            <Slider />
           </div>
         </div>
         <div className="marker">
