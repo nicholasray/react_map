@@ -14,9 +14,9 @@ class Slider extends Component {
     };
     return (
       <SlickSlider {...settings}>
-        <img src="http://placehold.it/200x150/ffffff/c0392b/&text=slide1"/>
-        <img src="http://placehold.it/200x150/eee/c0392b/&text=slide2"/>
-        <img src="http://placehold.it/200x150/bbeeff/c0392b/&text=slide3"/>
+        <img src="http://placehold.it/200x170/5B6367/ddd/&text=slide1"/>
+        <img src="http://placehold.it/200x170/5B6367/ddd/&text=slide2"/>
+        <img src="http://placehold.it/200x170/5B6367/ddd/&text=slide3"/>
       </SlickSlider>
     );
   }
