@@ -12,7 +12,6 @@ class SimpleMap extends Component {
 
   onClick(e) {
     console.log("map clicked", e);
-    console.log(e.event.target);
     if (!e.event.nativeEvent.markerClicked) {
       this.props.mapClick();
     }

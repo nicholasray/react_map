@@ -18,16 +18,24 @@ class Marker extends Component {
     e.nativeEvent.markerClicked = true;
   }
 
+  onBubbleDoubleClick(e) {
+    console.log("DOUBLE clicked");
+    e.stopPropagation();
+  }
+
   onMarkerClick(e) {
     this.props.onMarkerClick(this.props.id);
     e.nativeEvent.markerClicked = true;
   }
 
+  componentDidMount() {
+    ReactDOM.findDOMNode(this.refs.bubble_dom).addEventListener("dblclick", this.onBubbleDoubleClick);
+  }
 
   render() {
     return (
       <div>
-        <div onClick={this.onBubbleClick.bind(this)} onMouseEnter={this.onMouseEnter.bind(this)} onMouseLeave={this.onMouseLeave.bind(this)} className={cx("infoBox",
+        <div ref="bubble_dom" onClick={this.onBubbleClick.bind(this)} onMouseEnter={this.onMouseEnter.bind(this)} onMouseLeave={this.onMouseLeave.bind(this)} className={cx("infoBox",
         this.props.showInfobox ? "active" : ""
         )}>
           <div className="infobox-content">
