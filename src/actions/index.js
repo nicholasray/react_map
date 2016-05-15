@@ -5,6 +5,7 @@ export const SEARCH = 'SEARCH';
 export const CHANGE_BOUNDS = 'CHANGE_BOUNDS';
 export const CHANGE_RANGE = 'CHANGE_RANGE';
 export const MARKER_SELECT = 'MARKER_SELECT';
+export const MAP_CLICK = 'MAP_CLICK';
 
 export function search() {
   return (dispatch, getState) => {
@@ -45,6 +46,13 @@ export function changeBounds(bounds, center, zoom) {
       payload: {bounds, center, zoom}
     });
     dispatch(search());
+  };
+}
+
+export function mapClick(id) {
+  return {
+    type: MAP_CLICK,
+    payload: {}
   };
 }
 

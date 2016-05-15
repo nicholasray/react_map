@@ -1,4 +1,4 @@
-import { SEARCH, MARKER_SELECT } from '../actions/index';
+import { SEARCH, MARKER_SELECT, MAP_CLICK } from '../actions/index';
 import { normalize, Schema, arrayOf } from 'normalizr';
 import  {rockSchema, climbSchema} from '../schema';
 
@@ -29,8 +29,19 @@ export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
   case SEARCH:
     return Object.assign({}, state, getNewEntities(state, action))
+  case MAP_CLICK:
+    return Object.assign({}, state, {markers: clearBubbles(state.markers, action)});
   case MARKER_SELECT:
-    return Object.assign({}, state, {markers: getNewMarkers(state, action)});
+    return Object.assign({}, state, {markers: getNewMarkers(state.markers, action)});
+  default:
+    return state;
+  }
+}
+
+function clearBubbles(state = state.markers, action) {
+  switch(action.type) {
+  case MAP_CLICK:
+    return Object.assign({}, state, {selected: 0});
   default:
     return state;
   }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import Slider from './slider';
 
@@ -11,10 +12,16 @@ class Marker extends Component {
   onMouseLeave(e) {
     this.props.$onMouseAllow(true);
   }
+
+  onClick(e) {
+    e.markerClicked = true;
+    console.log("bubble clicked");
+  }
+
   render() {
     return (
       <div>
-        <div onMouseEnter={this.onMouseEnter.bind(this)} onMouseLeave={this.onMouseLeave.bind(this)} className={cx("infoBox",
+        <div onClick={this.onClick.bind(this)} onMouseEnter={this.onMouseEnter.bind(this)} onMouseLeave={this.onMouseLeave.bind(this)} className={cx("infoBox",
         this.props.showInfobox ? "active" : ""
         )}>
           <div className="infobox-content">
