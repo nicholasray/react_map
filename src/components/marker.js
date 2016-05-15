@@ -13,21 +13,28 @@ class Marker extends Component {
     this.props.$onMouseAllow(true);
   }
 
-  onClick(e) {
+  onBubbleClick(e) {
+    console.log("bubble clicked");
     e.nativeEvent.markerClicked = true;
   }
+
+  onMarkerClick(e) {
+    this.props.onMarkerClick(this.props.id);
+    e.nativeEvent.markerClicked = true;
+  }
+
 
   render() {
     return (
       <div>
-        <div onClick={this.onClick.bind(this)} onMouseEnter={this.onMouseEnter.bind(this)} onMouseLeave={this.onMouseLeave.bind(this)} className={cx("infoBox",
+        <div onClick={this.onBubbleClick.bind(this)} onMouseEnter={this.onMouseEnter.bind(this)} onMouseLeave={this.onMouseLeave.bind(this)} className={cx("infoBox",
         this.props.showInfobox ? "active" : ""
         )}>
           <div className="infobox-content">
             <Slider />
           </div>
         </div>
-        <div className="marker">
+        <div onClick={this.onMarkerClick.bind(this)} className="marker">
         </div>
       </div>
     );

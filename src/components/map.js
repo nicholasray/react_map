@@ -10,22 +10,23 @@ class SimpleMap extends Component {
     this.props.changeBounds(data.bounds, data.center, data.zoom);
   }
 
-  onChildClick(id) {
-    console.log("marker selected", this.props.map);
-    this.props.markerSelect(id);
-  }
-
   onClick(e) {
     console.log("map clicked", e);
+    console.log(e.event.target);
     if (!e.event.nativeEvent.markerClicked) {
       this.props.mapClick();
     }
   }
 
+  onMarkerClick(id) {
+    console.log("marker selected", id);
+    this.props.markerSelect(id);
+  }
+
   renderMarkers() {
     return this.props.climbList.map((id) => {
       const rock = this.props.rockHash[id];
-      return <Marker key={id} lat={rock.latitude} lng={rock.longitude} showInfobox={id == this.props.markers.selected} />
+      return <Marker onMarkerClick={this.onMarkerClick.bind(this)} key={id} id={id} lat={rock.latitude} lng={rock.longitude} showInfobox={id == this.props.markers.selected} />
     });
   }
 
@@ -37,7 +38,6 @@ class SimpleMap extends Component {
           zoom={this.props.map.zoom}
           onChange={this.onChange.bind(this)}
           onClick={this.onClick.bind(this)}
-          onChildClick={this.onChildClick.bind(this)}
         >
           { this.renderMarkers() }
         </GoogleMap>
