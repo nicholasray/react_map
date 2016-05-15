@@ -10,7 +10,8 @@ class Slider extends Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       swipe: false,
-      dots: false
+      dots: false,
+      lazyLoad: true
     };
     return (
       <SlickSlider {...settings}>
