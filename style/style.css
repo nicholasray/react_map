@@ -160,8 +160,8 @@
   cursor: pointer;
 }
 
-.marker-hover {
-  background: red;
+.marker.marker-hover {
+  background-image: url('../public/images/map-marker-hover.png');
 }
 
 
