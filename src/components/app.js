@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { changeRange, changeRangeActive } from '../actions/index';
-import GMap from '../components/map.js'
+import GMap from '../components/map'
+import Collection from '../components/collection'
 import Rheostat from 'rheostat'
 
 export default class App extends Component {
@@ -16,9 +17,16 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <div className="rheostat-container">
-          <Rheostat onValuesUpdated={this.onValuesUpdated.bind(this)} onChange={this.onChange.bind(this)} min={0} max={14} values={[this.props.min, this.props.max]} />
-          min: {this.props.min}, max: {this.props.max}
+        <div className="sidebar">
+          <div className="filter-container">
+            <div className="rheostat-container">
+              <Rheostat onValuesUpdated={this.onValuesUpdated.bind(this)} onChange={this.onChange.bind(this)} min={0} max={14} values={[this.props.min, this.props.max]} />
+              min: {this.props.min}, max: {this.props.max}
+            </div>
+          </div>
+          <div className="collection-container">
+            <Collection />
+          </div>
         </div>
         <div>
           <GMap />

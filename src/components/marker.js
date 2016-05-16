@@ -5,6 +5,15 @@ import Slider from './slider';
 
 
 class Marker extends Component {
+  getImages() {
+    var images = [];
+    for (var i = 1016; i < 1025; i++) {
+      images.push({id: i});
+    }
+
+    return images;
+  }
+
   onMouseEnter(e) {
     this.props.$onMouseAllow(false);
   }
@@ -39,7 +48,16 @@ class Marker extends Component {
         this.props.showInfobox ? "active" : ""
         )}>
           <div className="infobox-content">
-            <Slider />
+            <div className="slider-container">
+              <Slider images={this.getImages()}/>
+              <div className="slider-text">v{this.props.climb.rating}</div>
+            </div>
+            <div className="panel-body">
+              <h3 className="panel-body-name"><a href={"http://www.google.com"}>{this.props.climb.name}</a></h3>
+              <div className="panel-body-small">
+                20 mins away
+              </div>
+            </div>
           </div>
         </div>
         <div onClick={this.onMarkerClick.bind(this)} className="marker">

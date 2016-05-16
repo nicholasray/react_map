@@ -24,14 +24,18 @@ class SimpleMap extends Component {
 
   renderMarkers() {
     return this.props.climbList.map((id) => {
-      const rock = this.props.rockHash[id];
-      return <Marker onMarkerClick={this.onMarkerClick.bind(this)} key={id} id={id} lat={rock.latitude} lng={rock.longitude} showInfobox={id == this.props.markers.selected} />
+      const climb = this.props.climbHash[id];
+      const rock = this.props.rockHash[climb.rockId];
+      return <Marker onMarkerClick={this.onMarkerClick.bind(this)} key={id} climb={climb} rock={rock} id={id} lat={rock.latitude} lng={rock.longitude} showInfobox={id == this.props.markers.selected} />
     });
   }
 
-  createMapOptions() {
+  createMapOptions(maps) {
     return {
-      scrollwheel: false,
+      zoomControlOptions: {
+        position: maps.ControlPosition.TOP_RIGHT
+      },
+      scrollwheel: false
     };
   }
 

@@ -2,11 +2,25 @@ import React, { Component } from 'react';
 import SlickSlider from 'react-slick';
 
 class Slider extends Component {
+  renderImages() {
+    return this.props.images.map((image) => {
+      return (
+        <div className="slide-container" key={image.id}>
+          <div className="image-wrapper">
+            <div className="image-container">
+            <img src={`https://unsplash.it/399/266?image=${image.id}`}/>
+            </div>
+          </div>
+        </div>
+      )
+    });
+  }
+
   render() {
     const settings = {
       dots: true,
       infinite: true,
-      speed: 120,
+      speed: 110,
       slidesToShow: 1,
       slidesToScroll: 1,
       swipe: false,
@@ -14,11 +28,11 @@ class Slider extends Component {
       lazyLoad: true
     };
     return (
-      <SlickSlider {...settings}>
-        <img src="http://placehold.it/260x175/5B6367/ddd/&text=slide1"/>
-        <img src="http://placehold.it/260x175/5B6367/ddd/&text=slide2"/>
-        <img src="http://placehold.it/260x175/5B6367/ddd/&text=slide3"/>
-      </SlickSlider>
+      <div>
+        <SlickSlider {...settings}>
+          {this.renderImages()}
+        </SlickSlider>
+      </div>
     );
   }
 }

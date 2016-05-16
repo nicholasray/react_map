@@ -1,3 +1,146 @@
+.sidebar {
+  background: #f8f8f8;
+  position: fixed;
+  top: 55px;
+  left: 0;
+  bottom: 0;
+  width: 60%;
+  overflow-y: scroll;
+}
+
+.item-container {
+  margin-bottom: 12.5px;
+}
+
+.image-wrapper {
+  padding-bottom: 67%;
+  position: relative;
+}
+
+.image-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+}
+
+.image-container > img {
+  width: auto;
+  height: 100%;
+  display: inline-block;
+}
+
+.filter-container {
+  background: white;
+}
+
+
+.slider-container {
+  position: relative;
+}
+
+.collection-container {
+  padding: 20px;
+}
+
+.slider-text {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  color: white;
+  padding: 5px 8px;
+  font-size: 24px;
+  background-color: rgba(60,62,63,0.7);
+  border-radius: 0 2px 2px 0;
+}
+
+.slick-slider {
+  margin-bottom: 0;
+  background: #C0C6CA;
+}
+
+.slick-slider:hover .slick-prev, .slick-slider:hover .slick-next {
+  opacity: .8;
+}
+
+.slick-next, .slick-prev {
+  right: 10px;
+  opacity: 0;
+  transition: opacity .1s ease-in-out;
+  background-image: url('../public/images/right_arrow.png');
+  background-size: contain;
+  width: 34px;
+  height: 34px;
+  margin-top: -17px;
+}
+
+.slick-prev {
+  background-image: url('../public/images/left_arrow.png');
+  right: auto;
+  left: 7px;
+}
+
+.slick-next:before, .slick-prev:before {
+  content: "";
+}
+
+.slick-next:focus {
+  background-image: url('../public/images/right_arrow.png');
+  background-size: contain;
+  width: 34px;
+  height: 34px;
+}
+
+.slick-prev:focus {
+  background-image: url('../public/images/left_arrow.png');
+  background-size: contain;
+  width: 34px;
+  height: 34px;
+}
+
+.slick-next:hover {
+  background-image: url('../public/images/right_arrow.png');
+  background-size: contain;
+  width: 34px;
+  height: 34px;
+  opacity: 1 !important;
+}
+
+.slick-prev:hover {
+  background-image: url('../public/images/left_arrow.png');
+  background-size: contain;
+  width: 34px;
+  height: 34px;
+  opacity: 1 !important;
+}
+
+.panel-body {
+  padding: 5px;
+}
+
+.panel-body-name {
+  font-size: 14px;
+  white-space: nowrap;
+  margin-top: 6px;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+.panel-body a {
+  color: #4B5052;
+  font-weight: normal;
+  display: block;
+  text-overflow: hidden;
+  overflow: hidden;
+}
+
+.panel-body-small {
+  color: #7E888C;
+  font-size: 12px;
+}
+
 .map {
   position: fixed;
   right: 0;
@@ -20,7 +163,7 @@
 
 .infoBox.active {
   display: block;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.85);
   visibility: visible;
   z-index: 500;
 }
@@ -73,9 +216,6 @@
 }
 
 .rheostat-container {
-  position: absolute;
-  left: 0;
-  width: 60%;
   padding: 50px;
 }
 
@@ -145,4 +285,12 @@
 
 .rheostat-horizontal .rheostat-handle:after {
   left: 13px;
+}
+
+
+.col-1, .col-sm-1, .col-md-1, .col-lg-1, .col-2, .col-sm-2, .col-md-2, .col-lg-2, .col-3, .col-sm-3, .col-md-3, .col-lg-3, .col-4, .col-sm-4, .col-md-4, .col-lg-4, .col-5, .col-sm-5, .col-md-5, .col-lg-5, .col-6, .col-sm-6, .col-md-6, .col-lg-6, .col-7, .col-sm-7, .col-md-7, .col-lg-7, .col-8, .col-sm-8, .col-md-8, .col-lg-8, .col-9, .col-sm-9, .col-md-9, .col-lg-9, .col-10, .col-sm-10, .col-md-10, .col-lg-10, .col-11, .col-sm-11, .col-md-11, .col-lg-11, .col-12, .col-sm-12, .col-md-12, .col-lg-12 {
+  padding-left: 12.5px;
+  padding-right: 12.5px;
+}
+
 }
