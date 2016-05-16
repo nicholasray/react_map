@@ -14,8 +14,8 @@ class CollectionItem extends Component {
   render() {
     const climb = this.props.climb
     return (
-      <div key={climb.id} id={climb.id} onMouseEnter={this.onMouseEnter.bind(this)} onMouseLeave={this.onMouseLeave.bind(this)} className="col-sm-12 col-md-6">
-        <div className="item-container">
+      <div key={climb.id} id={climb.id}  className="col-sm-12 col-md-6">
+        <div onMouseEnter={this.onMouseEnter.bind(this)} onMouseLeave={this.onMouseLeave.bind(this)} className="item-container">
           <div className="slider-container">
             <Slider images={[{id: this.props.imageIndex}, {id: this.props.imageIndex + 1}]} />
             <div className="slider-text">v{climb.rating}</div>
