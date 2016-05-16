@@ -1,4 +1,4 @@
-import { SEARCH, MARKER_SELECT, MAP_CLICK } from '../actions/index';
+import { SEARCH, MARKER_SELECT, MAP_CLICK, ITEM_MOUSE_ENTER, ITEM_MOUSE_LEAVE } from '../actions/index';
 import { normalize, Schema, arrayOf } from 'normalizr';
 import  {rockSchema, climbSchema} from '../schema';
 
@@ -33,6 +33,10 @@ export default function(state = INITIAL_STATE, action) {
     return Object.assign({}, state, {markers: clearBubbles(state.markers, action)});
   case MARKER_SELECT:
     return Object.assign({}, state, {markers: getNewMarkers(state.markers, action)});
+  case ITEM_MOUSE_ENTER:
+    return Object.assign({}, state, {markers: getNewMarkers(state.markers, action)});
+  case ITEM_MOUSE_LEAVE:
+    return Object.assign({}, state, {markers: getNewMarkers(state.markers, action)});
   default:
     return state;
   }
@@ -51,6 +55,10 @@ function getNewMarkers(state = state.markers, action) {
   switch(action.type) {
   case MARKER_SELECT:
     return Object.assign({}, state, {selected: action.payload.id});
+  case ITEM_MOUSE_ENTER:
+    return Object.assign({}, state, {hovered: action.payload.id});
+  case ITEM_MOUSE_LEAVE:
+    return Object.assign({}, state, {hovered: 0});
   default:
     return state;
   }

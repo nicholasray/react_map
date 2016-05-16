@@ -26,7 +26,7 @@ class SimpleMap extends Component {
     return this.props.climbList.map((id) => {
       const climb = this.props.climbHash[id];
       const rock = this.props.rockHash[climb.rockId];
-      return <Marker onMarkerClick={this.onMarkerClick.bind(this)} key={id} climb={climb} rock={rock} id={id} lat={rock.latitude} lng={rock.longitude} showInfobox={id == this.props.markers.selected} />
+      return <Marker onMarkerClick={this.onMarkerClick.bind(this)} key={id} climb={climb} rock={rock} id={id} lat={rock.latitude} lng={rock.longitude} showInfobox={id == this.props.markers.selected} hover={id == this.props.markers.hovered} />
     });
   }
 

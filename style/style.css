@@ -160,6 +160,10 @@
   cursor: pointer;
 }
 
+.marker-hover {
+  background: red;
+}
+
 
 .infoBox.active {
   display: block;

@@ -60,7 +60,7 @@ class Marker extends Component {
             </div>
           </div>
         </div>
-        <div onClick={this.onMarkerClick.bind(this)} className="marker">
+        <div onClick={this.onMarkerClick.bind(this)} className={cx("marker", this.props.hover ? "marker-hover" : "")}>
         </div>
       </div>
     );

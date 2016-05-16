@@ -8,7 +8,7 @@ class Slider extends Component {
         <div className="slide-container" key={image.id}>
           <div className="image-wrapper">
             <div className="image-container">
-            <img src={`https://unsplash.it/399/266?image=${image.id}`}/>
+              <img src={`https://unsplash.it/399/266?image=${image.id}`}/>
             </div>
           </div>
         </div>

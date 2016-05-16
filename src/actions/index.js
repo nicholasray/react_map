@@ -6,6 +6,8 @@ export const CHANGE_BOUNDS = 'CHANGE_BOUNDS';
 export const CHANGE_RANGE = 'CHANGE_RANGE';
 export const MARKER_SELECT = 'MARKER_SELECT';
 export const MAP_CLICK = 'MAP_CLICK';
+export const ITEM_MOUSE_ENTER = 'ITEM_MOUSE_ENTER';
+export const ITEM_MOUSE_LEAVE = 'ITEM_MOUSE_LEAVE';
 
 export function search() {
   return (dispatch, getState) => {
@@ -36,6 +38,20 @@ export function search() {
       });
       return data;
     });
+  }
+}
+
+export function itemMouseEnter(id) {
+  return {
+    type: ITEM_MOUSE_ENTER,
+    payload: {id}
+  }
+}
+
+export function itemMouseLeave(id) {
+  return {
+    type: ITEM_MOUSE_LEAVE,
+    payload: {id}
   }
 }
 
