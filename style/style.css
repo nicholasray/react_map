@@ -43,6 +43,23 @@
 
 .collection-container {
   padding: 20px;
+  position: relative;
+}
+
+.collection-loading {
+  background: white;
+}
+
+.collection-loading::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  z-index: 10;
+  opacity: .8;
 }
 
 .slider-text {
@@ -189,7 +206,7 @@
 }
 
 
-.infoBox:after {
+.infoBox::after {
   border-color: rgba(255,255,255,.8) transparent transparent;
   border-width: 15px;
   border-style: solid;

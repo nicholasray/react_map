@@ -8,9 +8,12 @@ export const MARKER_SELECT = 'MARKER_SELECT';
 export const MAP_CLICK = 'MAP_CLICK';
 export const ITEM_MOUSE_ENTER = 'ITEM_MOUSE_ENTER';
 export const ITEM_MOUSE_LEAVE = 'ITEM_MOUSE_LEAVE';
+export const SEARCH_LOAD = 'SEARCH_LOAD';
+export const SEARCH_COMPLETE = 'SEARCH_COMPLETE';
 
 export function search() {
   return (dispatch, getState) => {
+    dispatch(searchLoad());
     const state = getState();
     const se = state.map.bounds.se;
     const nw = state.map.bounds.nw;
@@ -38,6 +41,20 @@ export function search() {
       });
       return data;
     });
+  }
+}
+
+function searchLoad() {
+  return {
+    type: 'SEARCH_LOAD',
+    payload: {}
+  }
+}
+
+function searchComplete() {
+  return {
+    type: 'SEARCH_COMPLETE',
+    payload: {}
   }
 }
 

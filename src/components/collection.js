@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { itemMouseEnter, itemMouseLeave } from '../actions/index';
 import CollectionItem from './collection-item';
+import cx from 'classnames';
 
 class Collection extends Component {
   onMouseEnter(id) {
@@ -27,7 +28,7 @@ class Collection extends Component {
 
   render() {
     return (
-      <div>
+      <div className={cx(this.props.isLoading ? "collection-loading" : "")}>
         <div className="row">
          {this.renderItems()}
         </div>
@@ -37,7 +38,7 @@ class Collection extends Component {
 }
 
 export function mapStateToProps(state) {
-    return { climbHash: state.data.entities.climbs, climbList: state.data.result, rockHash: state.data.entities.rocks };
+    return { climbHash: state.data.entities.climbs, climbList: state.data.result, rockHash: state.data.entities.rocks, isLoading: state.data.isFetching };
 }
 
 export default connect(mapStateToProps, {itemMouseEnter, itemMouseLeave})(Collection);

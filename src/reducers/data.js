@@ -1,4 +1,4 @@
-import { SEARCH, MARKER_SELECT, MAP_CLICK, ITEM_MOUSE_ENTER, ITEM_MOUSE_LEAVE } from '../actions/index';
+import { SEARCH_LOAD, SEARCH, MARKER_SELECT, MAP_CLICK, ITEM_MOUSE_ENTER, ITEM_MOUSE_LEAVE } from '../actions/index';
 import { normalize, Schema, arrayOf } from 'normalizr';
 import  {rockSchema, climbSchema} from '../schema';
 
@@ -27,8 +27,10 @@ const INITIAL_STATE = {
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
+  case SEARCH_LOAD:
+    return Object.assign({}, state, {isFetching: true});
   case SEARCH:
-    return Object.assign({}, state, getNewEntities(state, action))
+    return Object.assign({}, state, getNewEntities(state, action), {isFetching: false})
   case MAP_CLICK:
     return Object.assign({}, state, {markers: clearBubbles(state.markers, action)});
   case MARKER_SELECT:
