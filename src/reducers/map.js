@@ -20,11 +20,20 @@ export default function(state = INITIAL_STATE, action) {
       bounds: action.payload.map.bounds
     };
     const newCenter = panToBubble(data);
-    const isPanning = (newCenter.lat != state.center.lat) || (newCenter.lng != state.center.lng) ? true : false;
+    const eps = .00001;
+    const isPanning = !(areValuesEqual(state.center.lat, newCenter.lat, eps)) || !(areValuesEqual(state.center.lng, newCenter.lng, eps)) ? true : false;
     return Object.assign({}, state, {center: newCenter}, {isPanning: isPanning});
   default:
     return state;
   }
+}
+
+function areValuesEqual(valueOne, valueTwo, eps) {
+    if (Math.abs(valueOne - valueTwo) > eps) {
+      return false;
+    }
+
+    return true;
 }
 
 function panToBubble(data) {
