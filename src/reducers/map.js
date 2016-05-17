@@ -20,7 +20,7 @@ export default function(state = INITIAL_STATE, action) {
       bounds: action.payload.map.bounds
     };
     const newCenter = panToBubble(data);
-    const isPanning = (newCenter.lat != state.center.lat) || (newCenter.lng != state.center.lng) ? {isPanning: true} : {}
+    const isPanning = (newCenter.lat != state.center.lat) || (newCenter.lng != state.center.lng) ? true : false;
     return Object.assign({}, state, {center: newCenter}, {isPanning: isPanning});
   default:
     return state;
