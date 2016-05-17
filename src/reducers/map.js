@@ -4,12 +4,12 @@ var merc = require('mercator-projection');
 const center = {lat: 39.0639, lng: -108.5506};
 const zoom = 6;
 
-const INITIAL_STATE = {bounds: {}, center: center, zoom: zoom};
+const INITIAL_STATE = {isPanning: false, bounds: {}, center: center, zoom: zoom};
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
   case CHANGE_BOUNDS:
-    return Object.assign({}, state, {bounds: getNewBounds(state.bounds, action), center: getNewCenter(state.center, action), zoom: action.payload.zoom});
+    return Object.assign({}, state, {bounds: getNewBounds(state.bounds, action), center: getNewCenter(state.center, action), zoom: action.payload.zoom, isPanning: false});
   case MARKER_SELECT:
     const data = {
       height: 259,
@@ -20,7 +20,8 @@ export default function(state = INITIAL_STATE, action) {
       bounds: action.payload.map.bounds
     };
     const newCenter = panToBubble(data);
-    return Object.assign({}, state, {center: newCenter});
+    const isPanning = (newCenter.lat != state.center.lat) || (newCenter.lng != state.center.lng) ? {isPanning: true} : {}
+    return Object.assign({}, state, {center: newCenter}, {isPanning: isPanning});
   default:
     return state;
   }

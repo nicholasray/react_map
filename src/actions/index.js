@@ -73,12 +73,15 @@ export function itemMouseLeave(id) {
 }
 
 export function changeBounds(bounds, center, zoom) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const isPanning = getState().map.isPanning;
     dispatch({
       type: CHANGE_BOUNDS,
       payload: {bounds, center, zoom}
     });
-    dispatch(search());
+    if (!isPanning) {
+      dispatch(search());
+    }
   };
 }
 
