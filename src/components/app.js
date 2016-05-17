@@ -18,10 +18,26 @@ export default class App extends Component {
     return (
       <div>
         <div className="sidebar">
-          <div className="filter-container">
-            <div className="rheostat-container">
-              <Rheostat onValuesUpdated={this.onValuesUpdated.bind(this)} onChange={this.onChange.bind(this)} min={0} max={14} values={[this.props.min, this.props.max]} />
-              min: {this.props.min}, max: {this.props.max}
+          <div className="filters-container">
+            <div className="filter-container">
+              <div className="row">
+                <div className="col-lg-2 col-md-12 text-center">
+                  <label>Distance</label>
+                </div>
+                <div className="col-lg-9 col-md-12">
+                </div>
+              </div>
+            </div>
+            <div className="filter-container">
+              <div className="row">
+                <div className="col-lg-2 col-md-12 text-center">
+                  <label>Rating</label>
+                </div>
+                <div className="col-lg-9 col-md-12">
+                  <Rheostat onValuesUpdated={this.onValuesUpdated.bind(this)} onChange={this.onChange.bind(this)} min={0} max={14} values={[this.props.min, this.props.max]} />
+                  min: {this.props.min}, max: {this.props.max}
+                </div>
+              </div>
             </div>
           </div>
           <div className="collection-container">

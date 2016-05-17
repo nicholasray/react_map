@@ -41,7 +41,7 @@ class SimpleMap extends Component {
 
   render() {
     return (
-      <div className="map">
+      <div className="map hidden-sm-down">
         <GoogleMap
           center={this.props.map.center}
           zoom={this.props.map.zoom}
