@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import MapReducer from './map';
 import DataReducer from './data';
 import FilterReducer from './filter';
+import PaginationReducer from './pagination';
 
 // {
 //   map: { zoom: 5, center: {lat: 5, lng: 10}, bounds: {nw: 5, se: 10}},
@@ -77,10 +78,8 @@ import FilterReducer from './filter';
 //     ]
 //   },
 //   pagination: {
-//     shownResults: 18,
-//     totalResults: 101,
-//     pageCount: 10,
-//     currentPage: 1,
+//    pageCount: 1,
+//    offset: 0
 //   }
 // }
 
@@ -88,7 +87,8 @@ import FilterReducer from './filter';
 const rootReducer = combineReducers({
   filters: FilterReducer,
   map: MapReducer,
-  data: DataReducer
+  data: DataReducer,
+  pagination: PaginationReducer
 });
 
 export default rootReducer;

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { changeRange, changeRangeActive } from '../actions/index';
 import GMap from '../components/map';
 import Collection from '../components/collection';
+import Pagination from '../components/pagination';
 import Rheostat from 'rheostat';
-import ReactPaginate from 'react-paginate';
 
 export default class App extends Component {
   onChange(data) {
@@ -13,10 +13,6 @@ export default class App extends Component {
 
   onValuesUpdated(data) {
     this.props.changeRangeActive(data.values[0], data.values[1]);
-  }
-
-  onPagination() {
-    console.log("pagination");
   }
 
   render() {
@@ -49,15 +45,7 @@ export default class App extends Component {
             <Collection />
           </div>
           <div className="collection-footer">
-            <ReactPaginate previousLabel={"previous"}
-                nextLabel={"next"}
-                clickCallback={this.onPagination}
-                breakLabel={<span>...</span>}
-                pageNum={10}
-                marginPagesDisplayed={1}
-                pageRangeDisplayed={3}
-                containerClassName={"pagination"}
-                activeClassName={"active"} />
+            <Pagination />
           </div>
         </div>
         <div>

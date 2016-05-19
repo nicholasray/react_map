@@ -10,6 +10,7 @@ export const ITEM_MOUSE_ENTER = 'ITEM_MOUSE_ENTER';
 export const ITEM_MOUSE_LEAVE = 'ITEM_MOUSE_LEAVE';
 export const SEARCH_LOAD = 'SEARCH_LOAD';
 export const SEARCH_COMPLETE = 'SEARCH_COMPLETE';
+export const PAGE_CHANGE = 'PAGE_CHANGE';
 
 export function search() {
   return (dispatch, getState) => {
@@ -19,25 +20,30 @@ export function search() {
     const nw = state.map.bounds.nw;
     const min = state.filters.range.min;
     const max = state.filters.range.max;
-    const url = `${ROOT_URL}/climbs?limit=10&bounds=${se.lat},${nw.lng},${nw.lat},${se.lng}&rating=gte:${min},lte:${max}&sort=id`
+    const offset = state.pagination.offset;
+    const limit = state.pagination.perPage;
+    const url = `${ROOT_URL}/climbs?limit=${limit}&bounds=${se.lat},${nw.lng},${nw.lat},${se.lng}&rating=gte:${min},lte:${max}&sort=id&offset=${offset}&pagination=true`
     console.log(url);
 
     var climbPayload = {};
+    var climbTotalCount = null;
 
     const request = axios.get(url)
     .then((data) => {
+      console.log(data.headers);
       climbPayload = data;
       var rockIds = [];
       const rockList = data.data.map((obj) => {
         return obj.rockId;
       }).join(",");
       const url = `${ROOT_URL}/rocks?id=${rockList}`;
+      climbTotalCount = data.headers["x-total-count"];
       return axios.get(url);
     })
     .then((data) => {
       dispatch({
         type: SEARCH,
-        payload: {rocks: data.data, climbs: climbPayload.data}
+        payload: {totalCount: climbTotalCount, rocks: data.data, climbs: climbPayload.data}
       });
       return data;
     });
@@ -55,6 +61,17 @@ function searchComplete() {
   return {
     type: 'SEARCH_COMPLETE',
     payload: {}
+  }
+}
+
+export function pageChange(offset) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: 'PAGE_CHANGE',
+      payload: { offset }
+    });
+
+    dispatch(search());
   }
 }
 
