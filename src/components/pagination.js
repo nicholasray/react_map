@@ -19,24 +19,39 @@ class Pagination extends Component {
   }
 
   render() {
+    var pagination;
+    var results;
+    const startRange = this.props.offset + 1;
+    const endRange = startRange - 1 + this.props.climbList.length;
+
+    if (this.props.totalCount > 0) {
+      results = <div>{`${startRange} - ${endRange}`} of {this.props.totalCount} Climbs</div>;
+      pagination = <ReactPaginate previousLabel={"previous"}
+              nextLabel={"next"}
+              clickCallback={this.onClick.bind(this)}
+              breakLabel={<span>...</span>}
+              pageNum={this.getTotalPages()}
+              marginPagesDisplayed={1}
+              pageRangeDisplayed={3}
+              containerClassName={"pagination"}
+              activeClassName={"active"} />
+    } else {
+      results = "";
+      pagination = "";
+    }
+
+
     return (
       <div>
-        <ReactPaginate previousLabel={"previous"}
-            nextLabel={"next"}
-            clickCallback={this.onClick.bind(this)}
-            breakLabel={<span>...</span>}
-            pageNum={this.getTotalPages()}
-            marginPagesDisplayed={1}
-            pageRangeDisplayed={3}
-            containerClassName={"pagination"}
-            activeClassName={"active"} />
+        {results}
+        {pagination}
       </div>
     )
   }
 }
 
 export function mapStateToProps(state) {
-    return {totalCount: state.pagination.totalCount, offset: state.pagination.offset, perPage: state.pagination.perPage};
+    return {climbList: state.data.result, totalCount: state.pagination.totalCount, offset: state.pagination.offset, perPage: state.pagination.perPage};
 }
 
 export default connect(mapStateToProps, {pageChange})(Pagination);

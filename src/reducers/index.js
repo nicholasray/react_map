@@ -3,12 +3,14 @@ import MapReducer from './map';
 import DataReducer from './data';
 import FilterReducer from './filter';
 import PaginationReducer from './pagination';
+import SortReducer from './sort';
 
 // {
 //   map: { zoom: 5, center: {lat: 5, lng: 10}, bounds: {nw: 5, se: 10}},
 //   filters: {
 //     range: {min: 5, max: 10}
 //   },
+//   sort: "featured",
 //   data: {
 //     sliders: {
 //       items: {
@@ -88,7 +90,8 @@ const rootReducer = combineReducers({
   filters: FilterReducer,
   map: MapReducer,
   data: DataReducer,
-  pagination: PaginationReducer
+  pagination: PaginationReducer,
+  sort: SortReducer
 });
 
 export default rootReducer;

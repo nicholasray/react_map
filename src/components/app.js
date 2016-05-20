@@ -4,7 +4,9 @@ import { changeRange, changeRangeActive } from '../actions/index';
 import GMap from '../components/map';
 import Collection from '../components/collection';
 import Pagination from '../components/pagination';
+import Sorter from '../components/sorter';
 import Rheostat from 'rheostat';
+import cx from 'classnames';
 
 export default class App extends Component {
   onChange(data) {
@@ -23,15 +25,6 @@ export default class App extends Component {
             <div className="filter-container">
               <div className="row">
                 <div className="col-lg-2 col-md-12 text-center">
-                  <label>Distance</label>
-                </div>
-                <div className="col-lg-9 col-md-12">
-                </div>
-              </div>
-            </div>
-            <div className="filter-container">
-              <div className="row">
-                <div className="col-lg-2 col-md-12 text-center">
                   <label>Rating</label>
                 </div>
                 <div className="col-lg-9 col-md-12">
@@ -40,12 +33,24 @@ export default class App extends Component {
                 </div>
               </div>
             </div>
+            <div className="filter-container">
+              <div className="row">
+                <div className="col-lg-2 col-md-12 text-center">
+                  <label>Sort By</label>
+                </div>
+                <div className="col-lg-9 col-md-12">
+                  <Sorter />
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="collection-container">
-            <Collection />
-          </div>
-          <div className="collection-footer">
-            <Pagination />
+          <div className={cx("collection-wrapper", this.props.isLoading ? "collection-loading" : "")}>
+            <div className="collection-container">
+              <Collection />
+            </div>
+            <div className="collection-footer">
+              <Pagination />
+            </div>
           </div>
         </div>
         <div>
@@ -57,7 +62,7 @@ export default class App extends Component {
 }
 
 export function mapStateToProps(state) {
-    return { min: state.filters.range.min, max: state.filters.range.max };
+    return { min: state.filters.range.min, max: state.filters.range.max, isLoading: state.data.isFetching };
 }
 
 export default connect(mapStateToProps, { changeRange, changeRangeActive })(App);

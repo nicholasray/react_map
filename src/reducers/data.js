@@ -72,7 +72,7 @@ function getNewEntities(state = INITIAL_STATE, action) {
     const rData = normalize(action.payload.rocks, arrayOf(rockSchema));
     const cData = normalize(action.payload.climbs, arrayOf(climbSchema));
     const combined = Object.assign({}, rData.entities, cData.entities);
-    return Object.assign({}, state, rData, {entities: combined});
+    return Object.assign({}, state, cData, {entities: combined});
   default:
     return state;
   }

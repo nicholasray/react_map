@@ -1,7 +1,7 @@
 import { PAGE_CHANGE, SEARCH } from '../actions/index';
 
 const INITIAL_STATE = {
-  perPage: 17,
+  perPage: 18,
   totalCount: 0,
   offset: 0
 };

@@ -11,6 +11,7 @@ export const ITEM_MOUSE_LEAVE = 'ITEM_MOUSE_LEAVE';
 export const SEARCH_LOAD = 'SEARCH_LOAD';
 export const SEARCH_COMPLETE = 'SEARCH_COMPLETE';
 export const PAGE_CHANGE = 'PAGE_CHANGE';
+export const SORT_CHANGE = 'SORT_CHANGE';
 
 export function search() {
   return (dispatch, getState) => {
@@ -22,7 +23,8 @@ export function search() {
     const max = state.filters.range.max;
     const offset = state.pagination.offset;
     const limit = state.pagination.perPage;
-    const url = `${ROOT_URL}/climbs?limit=${limit}&bounds=${se.lat},${nw.lng},${nw.lat},${se.lng}&rating=gte:${min},lte:${max}&sort=id&offset=${offset}&pagination=true`
+    const sort = getSortParam(state.sort);
+    const url = `${ROOT_URL}/climbs?limit=${limit}&bounds=${se.lat},${nw.lng},${nw.lat},${se.lng}&rating=gte:${min},lte:${max}&sort=${sort}&offset=${offset}&pagination=true`
     console.log(url);
 
     var climbPayload = {};
@@ -30,7 +32,6 @@ export function search() {
 
     const request = axios.get(url)
     .then((data) => {
-      console.log(data.headers);
       climbPayload = data;
       var rockIds = [];
       const rockList = data.data.map((obj) => {
@@ -50,6 +51,15 @@ export function search() {
   }
 }
 
+function getSortParam(value) {
+  switch(value) {
+  case "featured":
+    return "id"
+  default:
+    return value
+  }
+}
+
 function searchLoad() {
   return {
     type: 'SEARCH_LOAD',
@@ -61,6 +71,17 @@ function searchComplete() {
   return {
     type: 'SEARCH_COMPLETE',
     payload: {}
+  }
+}
+
+export function sortChange(sort) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: 'SORT_CHANGE',
+      payload: { sort }
+    });
+
+    dispatch(search());
   }
 }
 
