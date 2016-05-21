@@ -116,7 +116,7 @@ export function changeBounds(bounds, center, zoom) {
     console.log("bounds state is ", getState());
     dispatch({
       type: CHANGE_BOUNDS,
-      payload: {bounds, center, zoom}
+      payload: {bounds, center, zoom, isPanning: isPanning}
     });
     if (!isPanning) {
       dispatch(search());

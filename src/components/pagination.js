@@ -12,6 +12,8 @@ class Pagination extends Component {
   }
 
   getCurrentPage() {
+    console.log(Math.ceil((this.props.offset / this.props.perPage)));
+    return Math.ceil((this.props.offset / this.props.perPage));
   }
 
   getTotalPages() {
@@ -29,6 +31,7 @@ class Pagination extends Component {
       pagination = <ReactPaginate previousLabel={"previous"}
               nextLabel={"next"}
               clickCallback={this.onClick.bind(this)}
+              forceSelected={this.getCurrentPage()}
               breakLabel={<span>...</span>}
               pageNum={this.getTotalPages()}
               marginPagesDisplayed={1}
