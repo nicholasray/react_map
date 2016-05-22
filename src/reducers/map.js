@@ -1,5 +1,5 @@
 import { CHANGE_BOUNDS, MARKER_SELECT, ROUTE_ENTER} from '../actions/index';
-var merc = require('mercator-projection');
+import merc from 'mercator-projection';
 
 const center = {lat: 39.0639, lng: -108.5506};
 const zoom = 6;

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import _ from 'lodash';
+import merc from 'mercator-projection';
 
 export const ROOT_URL = 'https://sandstone-api.herokuapp.com';
 export const SEARCH = 'SEARCH';
@@ -15,6 +16,22 @@ export const PAGE_CHANGE = 'PAGE_CHANGE';
 export const SORT_CHANGE = 'SORT_CHANGE';
 export const ROUTE_ENTER = 'ROUTE_ENTER';
 
+function shrinkBoundsToMarkers(se, nw, zoom) {
+    const scale = 1 << zoom;
+    const markerWidth = 36 / scale;
+    const markerHeight = 36 / scale;
+    const boundsNW = merc.fromLatLngToPoint({lat: nw.lat, lng: nw.lng});
+    const boundsSE = merc.fromLatLngToPoint({lat: se.lat, lng: se.lng});
+
+    const newNWPoint = {x: (boundsNW.x + (markerWidth / 2)), y: (boundsNW.y + (markerHeight))};
+    const newSEPoint = {x: (boundsSE.x - (markerWidth / 2)), y: (boundsSE.y)};
+
+    const newNWLatLng = merc.fromPointToLatLng(newNWPoint);
+    const newSELatLng = merc.fromPointToLatLng(newSEPoint);
+
+    return {nw: newNWLatLng, se: newSELatLng};
+}
+
 export function search(router) {
   return (dispatch, getState) => {
     const state = getState();
@@ -23,8 +40,11 @@ export function search(router) {
       return;
     }
     dispatch(searchLoad());
-    const se = state.map.bounds.se;
-    const nw = state.map.bounds.nw;
+
+    const shrunkBounds = shrinkBoundsToMarkers(state.map.bounds.se, state.map.bounds.nw, state.map.zoom);
+    console.log("shrunk bounds", shrunkBounds);
+    const se = shrunkBounds.se;
+    const nw = shrunkBounds.nw;
     const min = state.filters.range.min;
     const max = state.filters.range.max;
     const offset = state.pagination.perPage * (state.pagination.page - 1);
