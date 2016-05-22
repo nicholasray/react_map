@@ -107,7 +107,7 @@ export function routeEnter(location, router) {
   return (dispatch, getState) => {
     dispatch({
       type: ROUTE_ENTER,
-      payload: {query: location.query, router}
+      payload: {query: location.query, pathname: location.pathname, router}
     });
   }
 }
@@ -123,7 +123,7 @@ function pushRouterLocation(state, router) {
     min: state.filters.range.min,
     max: state.filters.range.max
   };
-  router.replace({query: query});
+  router.replace({pathname: state.route.pathname, query: query});
 }
 
 export function sortChange(sort, router) {
