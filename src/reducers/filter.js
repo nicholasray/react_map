@@ -1,4 +1,4 @@
-import { CHANGE_RANGE } from '../actions/index';
+import { CHANGE_RANGE, ROUTE_ENTER } from '../actions/index';
 
 const INITIAL_STATE = {
   range: {min: 0, max: 14}
@@ -8,6 +8,12 @@ export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
   case CHANGE_RANGE:
     return Object.assign({}, state, {range: getNewRange(state.range, action)})
+  case ROUTE_ENTER:
+    var min = action.payload.query.min || state.range.min
+    var max = action.payload.query.max || state.range.max
+    return Object.assign({}, state, {
+      range: {min, max}
+    });
   default:
     return state;
   }

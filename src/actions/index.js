@@ -88,6 +88,20 @@ export function routeEnter(location, router) {
   }
 }
 
+function pushRouterLocation(state, router) {
+  // transform state into query
+  const query = {
+    lat: state.map.center.lat,
+    lng: state.map.center.lng,
+    zoom: state.map.zoom,
+    offset: state.pagination.offset,
+    sort: state.sort,
+    min: state.filters.range.min,
+    max: state.filters.range.max
+  };
+  router.replace({query: query});
+}
+
 export function sortChange(sort, router) {
   return (dispatch, getState) => {
     dispatch({
@@ -140,18 +154,6 @@ export function changeBounds(bounds, center, zoom, router) {
   };
 }
 
-function pushRouterLocation(state, router) {
-  // transform state into query
-  const query = {
-    lat: state.map.center.lat,
-    lng: state.map.center.lng,
-    zoom: state.map.zoom,
-    offset: state.pagination.offset,
-    sort: state.sort
-  };
-  router.replace({query: query});
-}
-
 export function mapClick(id) {
   return {
     type: MAP_CLICK,
@@ -170,12 +172,14 @@ export function markerSelect(id) {
   }
 }
 
-export function changeRange(min, max) {
+export function changeRange(min, max, router) {
   return (dispatch, getState) => {
     dispatch({
       type: CHANGE_RANGE,
       payload: { min, max }
     });
+
+    dispatch(search(router));
   };
 }
 

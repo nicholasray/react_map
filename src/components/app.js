@@ -12,7 +12,7 @@ import _ from 'lodash';
 
 export default class App extends Component {
   onChange(data) {
-    this.props.changeRange(data.values[0], data.values[1]);
+    this.props.changeRange(data.values[0], data.values[1], this.props.router);
   }
 
   componentWillMount() {
