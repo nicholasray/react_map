@@ -28,7 +28,7 @@ export default function(state = INITIAL_STATE, action) {
     });
   case SEARCH:
     return Object.assign({}, state, {
-      totalCount: action.payload.totalCount
+      totalCount: parseInt(action.payload.totalCount)
     });
   default:
     return state;
