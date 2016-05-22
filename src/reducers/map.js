@@ -1,4 +1,4 @@
-import { CHANGE_BOUNDS, MARKER_SELECT } from '../actions/index';
+import { CHANGE_BOUNDS, MARKER_SELECT, ROUTE_SYNC } from '../actions/index';
 var merc = require('mercator-projection');
 
 const center = {lat: 39.0639, lng: -108.5506};
@@ -23,6 +23,8 @@ export default function(state = INITIAL_STATE, action) {
     const eps = .00001;
     const isPanning = !(areValuesEqual(state.center.lat, newCenter.lat, eps)) || !(areValuesEqual(state.center.lng, newCenter.lng, eps)) ? true : false;
     return Object.assign({}, state, {center: newCenter}, {isPanning: isPanning});
+  case ROUTE_SYNC:
+    return Object.assign({}, state, {center: {lat: parseFloat(action.payload.query.lat), lng: parseFloat(action.payload.query.lng)}}, {zoom: parseInt(action.payload.query.zoom)});
   default:
     return state;
   }

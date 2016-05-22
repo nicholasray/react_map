@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { changeRange, changeRangeActive } from '../actions/index';
+import { changeRange, changeRangeActive, routeChange } from '../actions/index';
 import GMap from '../components/map';
 import Collection from '../components/collection';
 import Pagination from '../components/pagination';
 import Sorter from '../components/sorter';
 import Rheostat from 'rheostat';
 import cx from 'classnames';
+import { withRouter } from 'react-router'
+import _ from 'lodash';
 
 export default class App extends Component {
   onChange(data) {
     this.props.changeRange(data.values[0], data.values[1]);
+  }
+
+  componentWillMount() {
+    console.log("mounted");
+    this.props.routeChange(this.props.location, this.props.router);
+  }
+
+ componentWillReceiveProps (nextProps) {
+   console.log("will receive props");
+    if (!_.isEqual(nextProps.location.query, this.props.location.query)) {
+      this.props.routeChange(nextProps.location, nextProps.router);
+    }
   }
 
   onValuesUpdated(data) {
@@ -65,4 +79,4 @@ export function mapStateToProps(state) {
     return { min: state.filters.range.min, max: state.filters.range.max, isLoading: state.data.isFetching };
 }
 
-export default connect(mapStateToProps, { changeRange, changeRangeActive })(App);
+export default connect(mapStateToProps, { changeRange, changeRangeActive, routeChange })(withRouter(App));

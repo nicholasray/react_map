@@ -4,6 +4,7 @@ import DataReducer from './data';
 import FilterReducer from './filter';
 import PaginationReducer from './pagination';
 import SortReducer from './sort';
+import RouteReducer from './route';
 
 // {
 //   map: { zoom: 5, center: {lat: 5, lng: 10}, bounds: {nw: 5, se: 10}},
@@ -82,6 +83,10 @@ import SortReducer from './sort';
 //   pagination: {
 //    pageCount: 1,
 //    offset: 0
+//   },
+//   route: {
+//    pathname: "/",
+//    query: {}
 //   }
 // }
 
@@ -91,7 +96,8 @@ const rootReducer = combineReducers({
   map: MapReducer,
   data: DataReducer,
   pagination: PaginationReducer,
-  sort: SortReducer
+  sort: SortReducer,
+  route: RouteReducer
 });
 
 export default rootReducer;

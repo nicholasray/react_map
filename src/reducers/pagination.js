@@ -1,4 +1,4 @@
-import { PAGE_CHANGE, SEARCH, SEARCH_LOAD, CHANGE_BOUNDS} from '../actions/index';
+import { PAGE_CHANGE, SEARCH, SEARCH_LOAD, CHANGE_BOUNDS, ROUTE_SYNC} from '../actions/index';
 
 const INITIAL_STATE = {
   perPage: 18,
@@ -11,19 +11,19 @@ export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
   case PAGE_CHANGE:
     return Object.assign({}, state, {
-    offset: action.payload.offset,
-    changing: true
-  });
-  case SEARCH_LOAD:
-    const offset = state.changing ? state.offset : 0;
-    return Object.assign({}, state, {
-    changing: false,
-    offset: offset
-  });
+      offset: action.payload.offset,
+      changing: true
+    });
   case SEARCH:
     return Object.assign({}, state, {
-    totalCount: action.payload.totalCount
-  });
+      totalCount: action.payload.totalCount
+    });
+  case ROUTE_SYNC:
+    var offset = action.payload.query.offset || state.offset;
+    return Object.assign({}, state, {
+      offset: parseInt(offset),
+      changing: true
+    });
   default:
     return state;
   }

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 
 export const ROOT_URL = 'https://sandstone-api.herokuapp.com';
 export const SEARCH = 'SEARCH';
@@ -12,6 +13,8 @@ export const SEARCH_LOAD = 'SEARCH_LOAD';
 export const SEARCH_COMPLETE = 'SEARCH_COMPLETE';
 export const PAGE_CHANGE = 'PAGE_CHANGE';
 export const SORT_CHANGE = 'SORT_CHANGE';
+export const ROUTE_CHANGE = 'ROUTE_CHANGE';
+export const ROUTE_SYNC = 'ROUTE_SYNC';
 
 export function search() {
   return (dispatch, getState) => {
@@ -51,6 +54,7 @@ export function search() {
   }
 }
 
+
 function getSortParam(value) {
   switch(value) {
   case "featured":
@@ -62,37 +66,55 @@ function getSortParam(value) {
 
 function searchLoad() {
   return {
-    type: 'SEARCH_LOAD',
+    type: SEARCH_LOAD,
     payload: {}
   }
 }
 
 function searchComplete() {
   return {
-    type: 'SEARCH_COMPLETE',
+    type: SEARCH_COMPLETE,
     payload: {}
   }
 }
 
-export function sortChange(sort) {
+export function routeChange(location, router) {
   return (dispatch, getState) => {
     dispatch({
-      type: 'SORT_CHANGE',
-      payload: { sort }
+      type: ROUTE_CHANGE,
+      payload: {location: location, router}
     });
 
-    dispatch(search());
+    dispatch({
+      type: ROUTE_SYNC,
+      payload: {query: location.query}
+    });
+
+    if (!_.isEmpty(getState().map.bounds)) {
+      dispatch(search());
+    }
   }
 }
 
-export function pageChange(offset) {
+export function sortChange(sort, router) {
   return (dispatch, getState) => {
     dispatch({
-      type: 'PAGE_CHANGE',
+      type: SORT_CHANGE,
+      payload: { sort }
+    });
+
+    pushRouterLocation(getState(), router);
+  }
+}
+
+export function pageChange(offset, router) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: PAGE_CHANGE,
       payload: { offset }
     });
 
-    dispatch(search());
+    pushRouterLocation(getState(), router);
   }
 }
 
@@ -110,18 +132,28 @@ export function itemMouseLeave(id) {
   }
 }
 
-export function changeBounds(bounds, center, zoom) {
+export function changeBounds(bounds, center, zoom, router) {
   return (dispatch, getState) => {
     const isPanning = getState().map.isPanning;
     console.log("bounds state is ", getState());
+    const prevState = getState();
     dispatch({
       type: CHANGE_BOUNDS,
       payload: {bounds, center, zoom, isPanning: isPanning}
     });
+
     if (!isPanning) {
+      pushRouterLocation(getState(), router);
+    }
+
+    if (_.isEmpty(prevState.map.bounds) && !_.isEmpty(getState().map.bounds)) {
       dispatch(search());
     }
   };
+}
+
+function pushRouterLocation(state, router) {
+    router.push({pathname: state.route.path, query: state.route.query});
 }
 
 export function mapClick(id) {
@@ -148,7 +180,6 @@ export function changeRange(min, max) {
       type: CHANGE_RANGE,
       payload: { min, max }
     });
-    dispatch(search());
   };
 }
 

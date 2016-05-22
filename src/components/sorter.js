@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { sortChange } from '../actions/index';
+import { withRouter } from 'react-router'
 
 class Sorter extends Component {
   onChange(e) {
-    this.props.sortChange(e.target.value);
+    this.props.sortChange(e.target.value, this.props.router);
   }
 
   render() {
@@ -24,4 +25,4 @@ export function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { sortChange })(Sorter);
+export default connect(mapStateToProps, { sortChange })(withRouter(Sorter));
