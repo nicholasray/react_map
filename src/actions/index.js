@@ -34,13 +34,13 @@ function shrinkBoundsToMarkers(se, nw, zoom) {
 
 export function search(router) {
   return (dispatch, getState) => {
-    const state = getState();
-    if (_.isEmpty(state.map.bounds)) {
+    if (_.isEmpty(getState().map.bounds)) {
       console.log("trying to search but bounds empty");
       return;
     }
     dispatch(searchLoad());
 
+    const state = getState();
     const shrunkBounds = shrinkBoundsToMarkers(state.map.bounds.se, state.map.bounds.nw, state.map.zoom);
     console.log("shrunk bounds", shrunkBounds);
     const se = shrunkBounds.se;
