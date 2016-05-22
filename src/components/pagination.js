@@ -7,23 +7,27 @@ import { withRouter } from 'react-router'
 class Pagination extends Component {
   onClick(data) {
     const selected = data.selected;
-    const offset = Math.ceil(selected * this.props.perPage);
+    const page = selected + 1;
     console.log("pagination", data);
-    this.props.pageChange(offset, this.props.router);
+    this.props.pageChange(page, this.props.router);
   }
 
   getCurrentPage() {
-    return Math.ceil((this.props.offset / this.props.perPage));
+    return this.props.page - 1;
   }
 
   getTotalPages() {
     return Math.ceil(this.props.totalCount / this.props.perPage);
   }
 
+  getOffset() {
+    return this.props.perPage * (this.props.page - 1);
+  }
+
   render() {
     var pagination;
     var results;
-    const startRange = this.props.offset + 1;
+    const startRange = this.getOffset() + 1;
     const endRange = startRange - 1 + this.props.climbList.length;
 
     if (this.props.totalCount > 0) {
@@ -54,7 +58,7 @@ class Pagination extends Component {
 }
 
 export function mapStateToProps(state) {
-    return {climbList: state.data.result, totalCount: state.pagination.totalCount, offset: state.pagination.offset, perPage: state.pagination.perPage};
+    return {climbList: state.data.result, totalCount: state.pagination.totalCount, page: state.pagination.page, perPage: state.pagination.perPage};
 }
 
 export default connect(mapStateToProps, {pageChange})(withRouter(Pagination));

@@ -9,8 +9,8 @@ export default function(state = INITIAL_STATE, action) {
   case CHANGE_RANGE:
     return Object.assign({}, state, {range: getNewRange(state.range, action)})
   case ROUTE_ENTER:
-    var min = action.payload.query.min || state.range.min
-    var max = action.payload.query.max || state.range.max
+    var min = parseInt(action.payload.query.min || state.range.min);
+    var max = parseInt(action.payload.query.max || state.range.max);
     return Object.assign({}, state, {
       range: {min, max}
     });

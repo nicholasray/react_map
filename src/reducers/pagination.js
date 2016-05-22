@@ -3,7 +3,7 @@ import { PAGE_CHANGE, SEARCH, SEARCH_LOAD, CHANGE_BOUNDS, ROUTE_ENTER} from '../
 const INITIAL_STATE = {
   perPage: 18,
   totalCount: 0,
-  offset: 0,
+  page: 1,
   changing: false
 };
 
@@ -11,19 +11,19 @@ export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
   case PAGE_CHANGE:
     return Object.assign({}, state, {
-      offset: action.payload.offset,
+      page: action.payload.page,
       changing: true
     });
   case SEARCH_LOAD:
-    var offset = state.changing ? state.offset : 0;
+    var page = state.changing ? state.page : 1;
     return Object.assign({}, state, {
       changing: false,
-      offset: offset
+      page: page
     });
   case ROUTE_ENTER:
-    var offset = action.payload.query.offset || state.offset;
+    var page = parseInt(action.payload.query.page || state.page);
     return Object.assign({}, state, {
-      offset: parseInt(offset),
+      page: page,
       changing: true
     });
   case SEARCH:

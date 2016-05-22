@@ -17,13 +17,17 @@ export const ROUTE_ENTER = 'ROUTE_ENTER';
 
 export function search(router) {
   return (dispatch, getState) => {
-    dispatch(searchLoad());
     const state = getState();
+    if (_.isEmpty(state.map.bounds)) {
+      console.log("trying to search but bounds empty");
+      return;
+    }
+    dispatch(searchLoad());
     const se = state.map.bounds.se;
     const nw = state.map.bounds.nw;
     const min = state.filters.range.min;
     const max = state.filters.range.max;
-    const offset = state.pagination.offset;
+    const offset = state.pagination.perPage * (state.pagination.page - 1);
     const limit = state.pagination.perPage;
     const sort = getSortParam(state.sort);
     const url = `${ROOT_URL}/climbs?limit=${limit}&bounds=${se.lat},${nw.lng},${nw.lat},${se.lng}&rating=gte:${min},lte:${max}&sort=${sort}&offset=${offset}&pagination=true`
@@ -94,7 +98,7 @@ function pushRouterLocation(state, router) {
     lat: state.map.center.lat,
     lng: state.map.center.lng,
     zoom: state.map.zoom,
-    offset: state.pagination.offset,
+    page: state.pagination.page,
     sort: state.sort,
     min: state.filters.range.min,
     max: state.filters.range.max
@@ -104,6 +108,7 @@ function pushRouterLocation(state, router) {
 
 export function sortChange(sort, router) {
   return (dispatch, getState) => {
+    console.log("IN sort change");
     dispatch({
       type: SORT_CHANGE,
       payload: { sort }
@@ -113,11 +118,12 @@ export function sortChange(sort, router) {
   }
 }
 
-export function pageChange(offset, router) {
+export function pageChange(page, router) {
   return (dispatch, getState) => {
+    console.log("IN page change");
     dispatch({
       type: PAGE_CHANGE,
-      payload: { offset }
+      payload: { page }
     });
 
     dispatch(search(router));
