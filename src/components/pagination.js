@@ -29,24 +29,27 @@ class Pagination extends Component {
     var results;
     const startRange = this.getOffset() + 1;
     const endRange = startRange - 1 + this.props.climbList.length;
+    const totalPages = this.getTotalPages();
+
+    results = "";
+    pagination = "";
 
     if (this.props.totalCount > 0) {
       results = <div>{`${startRange} - ${endRange}`} of {this.props.totalCount} Climbs</div>;
+    }
+
+    if (totalPages > 1) {
       pagination = <ReactPaginate previousLabel={"previous"}
               nextLabel={"next"}
               clickCallback={this.onClick.bind(this)}
               forceSelected={this.getCurrentPage()}
               breakLabel={<span>...</span>}
-              pageNum={this.getTotalPages()}
+              pageNum={totalPages}
               marginPagesDisplayed={1}
               pageRangeDisplayed={3}
               containerClassName={"pagination"}
               activeClassName={"active"} />
-    } else {
-      results = "";
-      pagination = "";
     }
-
 
     return (
       <div>
