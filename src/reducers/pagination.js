@@ -23,7 +23,7 @@ export default function(state = INITIAL_STATE, action) {
   case ROUTE_ENTER:
     var offset = action.payload.query.offset || state.offset;
     return Object.assign({}, state, {
-      offset: offset,
+      offset: parseInt(offset),
       changing: true
     });
   case SEARCH:
