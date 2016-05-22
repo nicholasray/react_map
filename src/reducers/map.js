@@ -24,7 +24,10 @@ export default function(state = INITIAL_STATE, action) {
     const isPanning = !(areValuesEqual(state.center.lat, newCenter.lat, eps)) || !(areValuesEqual(state.center.lng, newCenter.lng, eps)) ? true : false;
     return Object.assign({}, state, {center: newCenter}, {isPanning: isPanning});
   case ROUTE_ENTER:
-    return Object.assign({}, state, {center: {lat: parseFloat(action.payload.query.lat), lng: parseFloat(action.payload.query.lng)}}, {zoom: parseInt(action.payload.query.zoom)});
+    var lat = action.payload.query.lat || state.center.lat;
+    var lng = action.payload.query.lng || state.center.lng;
+    var zoom = action.payload.query.zoom || state.zoom;
+    return Object.assign({}, state, {center: {lat: parseFloat(lat), lng: parseFloat(lng)}}, {zoom: parseInt(zoom)});
   default:
     return state;
   }
