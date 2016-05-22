@@ -13,10 +13,9 @@ export const SEARCH_LOAD = 'SEARCH_LOAD';
 export const SEARCH_COMPLETE = 'SEARCH_COMPLETE';
 export const PAGE_CHANGE = 'PAGE_CHANGE';
 export const SORT_CHANGE = 'SORT_CHANGE';
-export const ROUTE_CHANGE = 'ROUTE_CHANGE';
-export const ROUTE_SYNC = 'ROUTE_SYNC';
+export const ROUTE_ENTER = 'ROUTE_ENTER';
 
-export function search() {
+export function search(router) {
   return (dispatch, getState) => {
     dispatch(searchLoad());
     const state = getState();
@@ -49,6 +48,8 @@ export function search() {
         type: SEARCH,
         payload: {totalCount: climbTotalCount, rocks: data.data, climbs: climbPayload.data}
       });
+
+      pushRouterLocation(getState(), router);
       return data;
     });
   }
@@ -78,21 +79,12 @@ function searchComplete() {
   }
 }
 
-export function routeChange(location, router) {
+export function routeEnter(location, router) {
   return (dispatch, getState) => {
     dispatch({
-      type: ROUTE_CHANGE,
-      payload: {location: location, router}
+      type: ROUTE_ENTER,
+      payload: {query: location.query, router}
     });
-
-    dispatch({
-      type: ROUTE_SYNC,
-      payload: {query: location.query}
-    });
-
-    if (!_.isEmpty(getState().map.bounds)) {
-      dispatch(search());
-    }
   }
 }
 
@@ -103,7 +95,7 @@ export function sortChange(sort, router) {
       payload: { sort }
     });
 
-    pushRouterLocation(getState(), router);
+    dispatch(search(router));
   }
 }
 
@@ -114,7 +106,7 @@ export function pageChange(offset, router) {
       payload: { offset }
     });
 
-    pushRouterLocation(getState(), router);
+    dispatch(search(router));
   }
 }
 
@@ -143,17 +135,21 @@ export function changeBounds(bounds, center, zoom, router) {
     });
 
     if (!isPanning) {
-      pushRouterLocation(getState(), router);
-    }
-
-    if (_.isEmpty(prevState.map.bounds) && !_.isEmpty(getState().map.bounds)) {
-      dispatch(search());
+      dispatch(search(router));
     }
   };
 }
 
 function pushRouterLocation(state, router) {
-    router.push({pathname: state.route.path, query: state.route.query});
+  // transform state into query
+  const query = {
+    lat: state.map.center.lat,
+    lng: state.map.center.lng,
+    zoom: state.map.zoom,
+    offset: state.pagination.offset,
+    sort: state.sort
+  };
+  router.replace({query: query});
 }
 
 export function mapClick(id) {

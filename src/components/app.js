@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { changeRange, changeRangeActive, routeChange } from '../actions/index';
+import { changeRange, changeRangeActive, routeEnter } from '../actions/index';
 import GMap from '../components/map';
 import Collection from '../components/collection';
 import Pagination from '../components/pagination';
@@ -17,14 +17,7 @@ export default class App extends Component {
 
   componentWillMount() {
     console.log("mounted");
-    this.props.routeChange(this.props.location, this.props.router);
-  }
-
- componentWillReceiveProps (nextProps) {
-   console.log("will receive props");
-    if (!_.isEqual(nextProps.location.query, this.props.location.query)) {
-      this.props.routeChange(nextProps.location, nextProps.router);
-    }
+    this.props.routeEnter(this.props.location, this.props.router);
   }
 
   onValuesUpdated(data) {
@@ -79,4 +72,4 @@ export function mapStateToProps(state) {
     return { min: state.filters.range.min, max: state.filters.range.max, isLoading: state.data.isFetching };
 }
 
-export default connect(mapStateToProps, { changeRange, changeRangeActive, routeChange })(withRouter(App));
+export default connect(mapStateToProps, { changeRange, changeRangeActive, routeEnter})(withRouter(App));
