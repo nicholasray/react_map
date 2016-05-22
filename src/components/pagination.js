@@ -13,7 +13,6 @@ class Pagination extends Component {
   }
 
   getCurrentPage() {
-    console.log(Math.ceil((this.props.offset / this.props.perPage)));
     return Math.ceil((this.props.offset / this.props.perPage));
   }
 

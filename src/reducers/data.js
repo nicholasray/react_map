@@ -5,9 +5,6 @@ import  {rockSchema, climbSchema} from '../schema';
 
 const INITIAL_STATE = {
   isFetching: false,
-  sliders: {
-    items: {}
-  },
   markers: {
     hovered: 0,
     selected: 0,
