@@ -115,6 +115,7 @@ export function routeEnter(location, router, splat = "") {
           const splatLat = results[0].geometry.location.lat();
           const splatLng = results[0].geometry.location.lng();
           const newQuery = Object.assign({}, query, {lat: splatLat, lng: splatLng});
+          console.log("geocoded results", results);
 
           dispatch({
             type: ROUTE_ENTER,
