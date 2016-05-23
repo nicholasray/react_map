@@ -32,11 +32,43 @@ class SimpleMap extends Component {
   }
 
   createMapOptions(maps) {
+    var styleArray = [
+      {
+        featureType: "water",
+        elementType: "geometry",
+        stylers: [
+          { color: "#93DAFD" }
+        ]
+      },
+      {
+        featureType: "poi.park",
+        elementType: "geometry",
+        stylers: [
+          { color: "#D3E0CB" }
+        ]
+      },
+      {
+        featureType: "transit.station.airport",
+        elementType: "geometry",
+        stylers: [
+          { color: "#D1D5E9" }
+        ]
+      },
+      {
+        featureType: "road.highway",
+        elementType: "geometry",
+        stylers: [
+          { color: "#DEB176" }
+        ]
+      },
+    ];
+
     return {
       zoomControlOptions: {
         position: maps.ControlPosition.TOP_RIGHT
       },
-      scrollwheel: false
+      scrollwheel: false,
+      styles: styleArray
     };
   }
 
