@@ -56,7 +56,7 @@ export function search(router) {
     var climbPayload = {};
     var climbTotalCount = null;
 
-    const request = axios.get(url)
+    axios.get(url)
     .then((data) => {
       climbPayload = data;
       var rockIds = [];
@@ -103,12 +103,34 @@ function searchComplete() {
   }
 }
 
-export function routeEnter(location, router) {
+export function routeEnter(location, router, splat = "") {
   return (dispatch, getState) => {
-    dispatch({
-      type: ROUTE_ENTER,
-      payload: {query: location.query, pathname: location.pathname, router}
-    });
+    // if query params don't inlcude lat and lng, lookup splat location
+    const query = location.query
+
+    if ((!query.lat || !query.lng) && splat) {
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ 'address': splat}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+          const splatLat = results[0].geometry.location.lat();
+          const splatLng = results[0].geometry.location.lng();
+          const newQuery = Object.assign({}, query, {lat: splatLat, lng: splatLng});
+
+          dispatch({
+            type: ROUTE_ENTER,
+            payload: {query: newQuery, pathname: location.pathname, router}
+          });
+        } else {
+          console.log("unsuccessful geocoding");
+          // geocoder was not successful
+        }
+      });
+    } else {
+      dispatch({
+        type: ROUTE_ENTER,
+        payload: {query: query, pathname: location.pathname, router}
+      });
+    }
   }
 }
 

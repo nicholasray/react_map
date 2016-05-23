@@ -17,7 +17,7 @@ export default class App extends Component {
 
   componentWillMount() {
     console.log("mounted");
-    this.props.routeEnter(this.props.location, this.props.router);
+    this.props.routeEnter(this.props.location, this.props.router, this.props.params.splat);
   }
 
   onValuesUpdated(data) {
