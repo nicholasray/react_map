@@ -58,7 +58,7 @@ class SimpleMap extends Component {
         featureType: "road.highway",
         elementType: "geometry",
         stylers: [
-          { color: "#DEB176" }
+          { color: "#B39C7B" }
         ]
       },
     ];
