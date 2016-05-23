@@ -68,7 +68,8 @@ class SimpleMap extends Component {
         position: maps.ControlPosition.TOP_RIGHT
       },
       scrollwheel: false,
-      styles: styleArray
+      styles: styleArray,
+      mapTypeId: google.maps.MapTypeId.TERRAIN
     };
   }
 
