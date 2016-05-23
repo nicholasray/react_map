@@ -1,8 +1,8 @@
 import { CHANGE_BOUNDS, MARKER_SELECT, ROUTE_ENTER} from '../actions/index';
 import merc from 'mercator-projection';
 
-const center = {lat: 39.0639, lng: -108.5506};
-const zoom = 6;
+const center = {lat: 0, lng: 0};
+const zoom = 11;
 
 const INITIAL_STATE = {isPanning: false, bounds: {}, center: center, zoom: zoom};
 

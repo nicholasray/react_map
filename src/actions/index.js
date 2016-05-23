@@ -15,6 +15,7 @@ export const SEARCH_COMPLETE = 'SEARCH_COMPLETE';
 export const PAGE_CHANGE = 'PAGE_CHANGE';
 export const SORT_CHANGE = 'SORT_CHANGE';
 export const ROUTE_ENTER = 'ROUTE_ENTER';
+export const PLACE_GEOCODE_LOAD = 'PLACE_GEOCODE_LOAD';
 
 function shrinkBoundsToMarkers(se, nw, zoom) {
     const scale = 1 << zoom;
@@ -34,8 +35,9 @@ function shrinkBoundsToMarkers(se, nw, zoom) {
 
 export function search(router) {
   return (dispatch, getState) => {
-    if (_.isEmpty(getState().map.bounds)) {
-      console.log("trying to search but bounds empty");
+    const stateCheck = getState();
+    if (_.isEmpty(stateCheck.map.bounds) || (stateCheck.map.center.lat == 0 && stateCheck.map.center.lng == 0)) {
+      console.log("trying to search but bounds or center empty");
       return;
     }
     dispatch(searchLoad());
@@ -105,10 +107,14 @@ function searchComplete() {
 
 export function routeEnter(location, router, splat = "") {
   return (dispatch, getState) => {
-    // if query params don't inlcude lat and lng, lookup splat location
     const query = location.query
 
+    // if query params don't inlcude lat and lng, lookup splat location
     if ((!query.lat || !query.lng) && splat) {
+      dispatch({
+        type: PLACE_GEOCODE_LOAD,
+        payload: {}
+      });
       const geocoder = new google.maps.Geocoder();
       geocoder.geocode({ 'address': splat}, function(results, status) {
         if (status === google.maps.GeocoderStatus.OK) {

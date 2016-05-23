@@ -1,4 +1,4 @@
-import { SEARCH_LOAD, SEARCH, MARKER_SELECT, MAP_CLICK, ITEM_MOUSE_ENTER, ITEM_MOUSE_LEAVE } from '../actions/index';
+import { SEARCH_LOAD, SEARCH, MARKER_SELECT, MAP_CLICK, ITEM_MOUSE_ENTER, ITEM_MOUSE_LEAVE, PLACE_GEOCODE_LOAD } from '../actions/index';
 import { normalize, Schema, arrayOf } from 'normalizr';
 import  {rockSchema, climbSchema} from '../schema';
 
@@ -24,6 +24,7 @@ const INITIAL_STATE = {
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
+  case PLACE_GEOCODE_LOAD:
   case SEARCH_LOAD:
     return Object.assign({}, state, {isFetching: true});
   case SEARCH:
