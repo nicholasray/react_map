@@ -61,6 +61,13 @@ class SimpleMap extends Component {
           { color: "#B39C7B" }
         ]
       },
+      {
+        featureType: "road.highway",
+        elementType: "labels",
+        stylers: [
+          { saturation: -45 }
+        ]
+      },
     ];
 
     return {
